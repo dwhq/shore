@@ -1,1 +1,23 @@
-生成秘钥
+//生成秘钥
+php artisan key:generate
+
+//命令行测试
+php artisan tinker
+
+//新建文件
+touch resources/views/pages/email_verify_notice.blade.php
+
+//创建数据库迁移文件  --table=users 参数是告诉 Laravel 我们这个迁移文件准备对 users 表进行变更，Laravel 就会帮我们生成好相关的代码
+php artisan make:migration users_add_email_verified --table=users
+
+//创建中间件 生成的中间件位于 app/Http/Middleware 目录下：
+php artisan make:middleware CheckIfEmailVerified
+
+//生成消息通知类
+php artisan make:notification EmailVerificationNotification
+
+//生成控制器
+php artisan make:controller EmailVerificationController
+
+//Laravel 提供了 make:listener 命令来快速创建一个事件的监听器：   生成的监听器文件在 app/Listeners 目录下：
+php artisan make:listener RegisteredListener
