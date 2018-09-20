@@ -25,6 +25,6 @@ Route::prefix('/')->middleware('auth')->group(function (){
     Route::get('email_verification/send', 'EmailVerificationController@send')->name('email_verification.send');
     //检测有没有验证
     Route::middleware('email_verified')->group( function() {
-
+        Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
     });
 });
