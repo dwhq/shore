@@ -33,3 +33,9 @@ php artisan make:model Models/UserAddress -fm
 
 //省市县 地址库
  yarn add china-area-data
+
+//首先通过 yarn 引入 sweetalert 这个库，sweetalert 可以用来展示比较美观的弹出提示框：  http://mishengqiang.com/sweetalert2/
+ yarn add sweetalert
+
+ //创建权限策略
+ php artisan make:policy UserAddressPolicy
