@@ -1,3 +1,5 @@
+//启动服务器
+vagrant up  vagrant ssh
 //生成秘钥
 php artisan key:generate
 
@@ -21,3 +23,6 @@ php artisan make:controller EmailVerificationController
 
 //Laravel 提供了 make:listener 命令来快速创建一个事件的监听器：   生成的监听器文件在 app/Listeners 目录下：
 php artisan make:listener RegisteredListener
+
+//创建处理异常控制器
+php artisan make:exception InvalidRequestException
