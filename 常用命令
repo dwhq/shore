@@ -30,3 +30,6 @@ php artisan make:exception InvalidRequestException
 //通过 make:model 命令来创建一个新的模型：   -fm 参数代表同时生成 factory 工厂文件和 migration 数据库迁移文件
 
 php artisan make:model Models/UserAddress -fm
+
+//省市县 地址库
+ yarn add china-area-data

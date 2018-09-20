@@ -25,6 +25,11 @@ Route::prefix('/')->middleware('auth')->group(function (){
     Route::get('email_verification/send', 'EmailVerificationController@send')->name('email_verification.send');
     //检测有没有验证
     Route::middleware('email_verified')->group( function() {
+        //收货地址页面
         Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
+        //添加收货地址页面
+        Route::get('user_addresses/create', 'UserAddressesController@create')->name('user_addresses.create');
+        //添加地址提交
+        Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store');
     });
 });
