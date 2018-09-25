@@ -45,3 +45,6 @@ php artisan admin:make UsersController --model=App\\Models\\User
 
 //创建模型
 php artisan make:model Models/Product -mf
+
+// git退回版本 复制对应的commit的那串编码,
+git reset --hard 81956e4de1e7d81a3040df9aacd41aa3763b3eec
