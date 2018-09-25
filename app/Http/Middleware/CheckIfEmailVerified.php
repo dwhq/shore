@@ -22,7 +22,7 @@ class CheckIfEmailVerified
                 return response()->json(['msg'=>'请先验证邮箱',400]);
             }
             //生成到指定路由的URL
-            return redirect(route('email_verify_notice'));
+            return redirect(url('email_verify_notice'));
         }
         return $next($request);
     }

@@ -39,3 +39,6 @@ php artisan make:model Models/UserAddress -fm
 
  //创建权限策略
  php artisan make:policy UserAddressPolicy
+
+//Laravel-Admin 的控制器创建方式与普通的控制器创建方式不太一样，要用 admin:make 来创建：
+php artisan admin:make UsersController --model=App\\Models\\User
