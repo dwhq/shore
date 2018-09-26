@@ -8,10 +8,10 @@ use App\Models\Product;
 class ProductsController extends Controller
 {
     //
-    public function index(Request $request)
+    public function index(Request $request,Product $product)
     {
-        $products = Product::query()->where('on_sale', true)->paginate();
-
+//        pd(\Storage::disk('admin'));
+        $products = $product->where('on_sale', true)->paginate(16);
         return view('products.index', ['products' => $products]);
     }
 }

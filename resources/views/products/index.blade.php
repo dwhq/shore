@@ -11,7 +11,7 @@
                             <div class="col-xs-3 product-item">
                                 <div class="product-content">
                                     <div class="top">
-                                        <div class="img"><img src="/uploads/{{ $product->image }}" alt=""></div>
+                                        <div class="img"><img src="{{ $product->image_url }}" alt=""></div>
                                         <div class="price"><b>￥</b>{{ $product->price }}</div>
                                         <div class="title">{{ $product->title }}</div>
                                     </div>
@@ -23,6 +23,7 @@
                             </div>
                         @endforeach
                     </div>
+                    <div class="pull-right">{{ $products->render() }}</div>  <!-- 只需要添加这一行 -->
                 </div>
             </div>
         </div>
