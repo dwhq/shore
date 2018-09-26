@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Exceptions\InvalidRequestException;
 
 class ProductsController extends Controller
 {
-    //
+    //商品列表首页
     public function index(Request $request, Product $product)
     {
         // 创建一个查询构造器
@@ -21,19 +22,19 @@ class ProductsController extends Controller
                 $query->where('title', 'like', $like)
                     ->orWhere('description', 'like', $like)
                     ->orWhereHas('skus', function ($query) use ($like) {
-                        $query->where('title','like',$like)
-                            ->orWhere('description','like',$like);
+                        $query->where('title', 'like', $like)
+                            ->orWhere('description', 'like', $like);
                     });
             });
         }
         // 是否有提交 order 参数，如果有就赋值给 $order 变量
         // order 参数用来控制商品的排序规则
-        if ($order = $request->input('order','')){
+        if ($order = $request->input('order', '')) {
             // 是否是以 _asc 或者 _desc 结尾
-            if (preg_match('/^(.+)_(asc|desc)$/',$order,$m)){
-                if (in_array($m[1],['price','sold_count','rating'])){
+            if (preg_match('/^(.+)_(asc|desc)$/', $order, $m)) {
+                if (in_array($m[1], ['price', 'sold_count', 'rating'])) {
                     // 根据传入的排序值来构造排序参数
-                    $builder->orderBy($m[1],$m[2]);
+                    $builder->orderBy($m[1], $m[2]);
                 }
             }
         }
@@ -45,7 +46,17 @@ class ProductsController extends Controller
             'filters' => [
                 'search' => $search,
                 'order' => $order,
-                ]
-            ]);
+            ]
+        ]);
+    }
+
+    public function show(Product $product,Request $request)
+    {
+        //判断商品是否上架
+        if (!$product->on_sale)
+        {
+            throw new InvalidRequestException('商品未上架');
+        }
+        return view('products.show',['product'=>$product]);
     }
 }

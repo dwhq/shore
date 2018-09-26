@@ -13,7 +13,10 @@
 
 //Route::get('/', 'PagesController@root')->name('root');
 Route::redirect('/', '/products')->name('root');
+//首页
 Route::get('products', 'ProductsController@index')->name('products.index');
+//商品详情页面
+Route::get('products/{product}','ProductsController@show')->name('products.show');
 Auth::routes();
 //创建具有共享属性的路由组
 Route::prefix('/')->middleware('auth')->group(function () {
