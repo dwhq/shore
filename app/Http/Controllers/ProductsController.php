@@ -50,21 +50,20 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function show(Product $product,Request $request)
+    public function show(Product $product, Request $request)
     {
         //判断商品是否上架
-        if (!$product->on_sale)
-        {
+        if (!$product->on_sale) {
             throw new InvalidRequestException('商品未上架');
         }
         $favored = false;
         // 用户未登录时返回的是 null，已登录时返回的是对应的用户对象
-        if ($user = $request->user()){
+        if ($user = $request->user()) {
             // 从当前用户已收藏的商品中搜索 id 为当前商品 id 的商品
             // boolval() 函数用于把值转为布尔值
-            $favored =boolval($user->favoriteProducts()->find($product->id));
+            $favored = boolval($user->favoriteProducts()->find($product->id));
         }
-        return view('products.show',['product'=>$product,'favored'=>$favored]);
+        return view('products.show', ['product' => $product, 'favored' => $favored]);
     }
 
     /**
@@ -83,11 +82,18 @@ class ProductsController extends Controller
         return [];
     }
 
-    //detach() 方法用于取消多对多的关联
+    //detach() 方法用于取消多对多的关联 取消收藏
     public function disfavor(Product $product, Request $request)
     {
         $user = $request->user();
         $user->favoriteProducts()->detach($product);
         return [];
     }
+
+    public function favorites(Request $request)
+    {
+        $products = $request->user()->favoriteProducts()->paginate(16);
+        return view('products.favorites', ['products' => $products]);
+    }
+
 }

@@ -24,7 +24,7 @@
     <div class="center">
         <p class="pt280">你访问的页面去火星了，你可以回去重来</p>
         <p class="pt10">
-            <a class="btn404" href="/admin/index" id="btnHome">首页</a>
+            <a class="btn404" href="/" id="btnHome">首页</a>
         </p>
     </div>
 </div>
