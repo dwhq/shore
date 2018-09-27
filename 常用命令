@@ -48,3 +48,12 @@ php artisan make:model Models/Product -mf
 
 // git退回版本 复制对应的commit的那串编码,
 git reset --hard 81956e4de1e7d81a3040df9aacd41aa3763b3eec
+
+//迁移数据库
+php artisan migrate
+
+//回滚最后一次迁移
+php artisan migrate:rollback
+
+//回滚应用程序中的所有迁移
+php artisan migrate:reset

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -15,6 +16,7 @@ class Product extends Model
     protected $casts = [
         'on_sale' => 'boolean', // on_sale 是一个布尔类型的字段
     ];
+
     // 与商品SKU关联
     public function skus()
     {
@@ -33,7 +35,7 @@ class Product extends Model
     {
         // 如果 image 字段本身就已经是完整的 url 就直接返回
         //startsWith 确定给定的字符串是否以给定的子字符串开头
-        if (Str::startsWith($this->attributes['image'],['http://', 'https://'])){
+        if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
             return $this->attributes['image'];
         }
         return \Storage::disk('admin')->url($this->attributes['image']);
