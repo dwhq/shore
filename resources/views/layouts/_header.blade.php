@@ -39,7 +39,15 @@
                                     退出登录
                                 </a>
                                 <a href="{{ route('products.favorites') }}">我的收藏</a>
-                                <a href="{{url('user_addresses')}}">收货地址</a>
+                                <li>
+                            <li>
+                                <a href="{{ route('orders.index') }}">我的订单</a>
+                            </li>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('orders.index') }}">我的订单</a>
+                            </li>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                 </form>

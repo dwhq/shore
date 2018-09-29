@@ -53,6 +53,10 @@ Route::prefix('/')->middleware('auth')->group(function () {
         Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
         //购物车提交到订单
         Route::post('orders', 'OrdersController@store')->name('orders.store');
+        //订单列表
+        Route::get('orders', 'OrdersController@index')->name('orders.index');
+        //订单详情页面
+        Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
     });
 });
 //商品详情页面

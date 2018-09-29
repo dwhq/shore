@@ -14,7 +14,42 @@ use DB;
 
 class OrdersController extends Controller
 {
-    //
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 用户订单列表
+     */
+    public function index(Request $request)
+    {
+        $orders = Order::query()
+            // 设置应该被加载的关系
+            ->with(['items.product', 'items.productSku'])
+            ->where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate();
+        return view('orders.index', ['orders' => $orders]);
+    }
+
+    /**
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 订单相求页面
+     */
+    public function show(Order $order,Request $request)
+    {
+        //权限
+        $this->authorize('own', $order);
+        //load在模型上的热切加载关系
+        return view('orders.show',['order'=>$order->load(['items.productSku', 'items.product'])]);
+    }
+
+    /**
+     * @param OrderRequest $request
+     * @return mixed
+     * @throws InternalException
+     * 添加订单
+     */
     public function store(OrderRequest $request)
     {
         $user = $request->user();
@@ -34,7 +69,6 @@ class OrdersController extends Controller
                         'contact_phone' => $address->contact_phone,
                     ],
                     'remark' => $request->input('remark'),
-                    'total_amount' => 0,
                     'total_amount' => 0,
                 ]);
                 //订单关联到当前用户
@@ -64,7 +98,7 @@ class OrdersController extends Controller
                     }
                 }
                 //更新订单总额
-                $order->update(['totalAmount' => $totalAmount]);
+                $order->update(['total_amount' => $totalAmount]);
                 //将下单的商品从购物车移除
                 $skuIds = collect($request->input('items'))->pluck('sku_id');
                 $user->cartItems()->whereIn('product_sku_id', $skuIds)->delete();
