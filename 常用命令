@@ -57,3 +57,12 @@ php artisan migrate:rollback
 
 //回滚应用程序中的所有迁移
 php artisan migrate:reset
+
+//通过 make:job 命令来创建一个任务 创建的任务类保存在 app/Jobs 目录下
+php artisan queue:work
+
+//要使用 redis 作为队列驱动，我们还需要引入 predis/predis 这个包
+composer require predis/predis
+
+//启动队列处理器
+php artisan queue:work
