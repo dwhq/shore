@@ -14,7 +14,7 @@ return [
 |如果是单纯本机测试,请将 
 |`// 'middleware' => 'auth',` 直接注释掉,如果留 `'middleware'=>''`空值,会产生bug,原因不详.
 |
-|
+|middleware
 */
     'core' => [
         'route' => [
