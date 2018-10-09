@@ -75,3 +75,12 @@ bfjtrs7094@sandbox.com 111111
 
 //支付宝测试平台
  https://openhome.alipay.com/platform/appDaily.htm?tab=info
+
+//创建支付成功事件
+php artisan make:event OrderPaid
+
+//创建监听器  我们希望订单支付之后对应的商品销量会对应地增加，所以创建一个更新商品销量的监听器
+php artisan make:listener UpdateProductSoldCount --event=OrderPaid
+
+//创建监听器来执行发送邮件的动作
+php artisan make:listener SendOrderPaidMail --event=OrderPaid
