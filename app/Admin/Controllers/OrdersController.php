@@ -34,12 +34,10 @@ class OrdersController extends Controller
      * @param Content $content
      * @return Content
      */
-    public function show($id, Content $content)
+    public function show(Order $order,Content $content)
     {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
+        $content->header('查看订单');
+        return $content->body(view('admin.orders.show',['order'=>$order]));
     }
 
     /**
@@ -168,4 +166,5 @@ class OrdersController extends Controller
 
         return $form;
     }
+
 }
