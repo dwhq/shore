@@ -19,4 +19,6 @@ Route::group([
     $router->get('products/create', 'ProductsController@create');
     //添加商品提交
     $router->post('products', 'ProductsController@store');
+    //订单列表
+    $router->get('orders', 'OrdersController@index')->name('admin.orders.index');
 });
