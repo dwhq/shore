@@ -45,18 +45,19 @@ class OrderService
             $totalAmount = 0;
             // 遍历用户提交的 SKU
             foreach ($items as $data) {
-                $sku = ProductSku::find($data['sku_id']);
+                $sku  = ProductSku::find($data['sku_id']);
                 // 创建一个 OrderItem 并直接与当前订单关联
                 $item = $order->items()->make([
                     'amount' => $data['amount'],
-                    'price' => $sku->price,
+                    'price'  => $sku->price,
                 ]);
-            }
-            $item->product()->associate($sku->product_id);
-            $item->productSku()->associate($sku);
-            $totalAmount += $sku->price * $data['amount'];
-            if ($sku->decreaseStock($data['amount']) <= 0) {
-                throw new InvalidRequestException('该商品库存不足');
+                $item->product()->associate($sku->product_id);
+                $item->productSku()->associate($sku);
+                $item->save();
+                $totalAmount += $sku->price * $data['amount'];
+                if ($sku->decreaseStock($data['amount']) <= 0) {
+                    throw new InvalidRequestException('该商品库存不足');
+                }
             }
             // 更新订单总金额
             $order->update(['total_amount' => $totalAmount]);
