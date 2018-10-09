@@ -67,5 +67,8 @@ composer require predis/predis
 //启动队列处理器
 php artisan queue:work
 
-//支付类库
+//支付类库   config:clear 执行
 composer require yansongda/pay
+
+//支付宝测试平台
+ https://openhome.alipay.com/platform/appDaily.htm?tab=info
