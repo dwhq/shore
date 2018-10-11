@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\OrderReviewed;
 use App\Exceptions\InternalException;
 use App\Exceptions\InvalidRequestException;
+use App\Http\Requests\ApplyRefundRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\ProductSku;
@@ -93,6 +94,16 @@ class OrdersController extends Controller
         // 使用 load 方法加载关联数据，避免 N + 1 性能问题
         return view('orders.review', ['order' => $order->load(['items.productSku', 'items.product'])]);
     }
+
+    /**
+     * @param Order $order
+     * @param SendReviewRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Throwable
+     * 添加评论
+     */
     public function sendReview(Order $order,SendReviewRequest $request)
     {
         // 校验权限
@@ -117,9 +128,29 @@ class OrdersController extends Controller
                     ]);
                 }
                 //将订单标记为已评价订单
-                $order->update(['review' => true]);
+                $order->update(['reviewed' => true]);
                 event(new OrderReviewed($order));
             });
         return redirect()->back();
+    }
+    public function applyRefund(Order $order,ApplyRefundRequest $request)
+    {
+        // 校验权限
+        $this->authorize('own', $order);
+        //判断是否付款
+        if (!$order->paid_at){
+            throw new InvalidRequestException('该订单没有支付，不可退款');
+        }
+        if ($order->refund_status !== Order::REFUND_STATUS_PENDING)
+        {
+            throw new InvalidRequestException('该订单已经申请过退款，请勿重复申请');
+        }
+        $extra = $order->extra ?:[];
+        $extra['refund_reason'] = $request->input('reason');
+        $order->update([
+           'refund_status' => Order::REFUND_STATUS_APPLIED,
+            'extra'        => $extra
+        ]);
+        return $order;
     }
 }
