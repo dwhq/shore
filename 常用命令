@@ -84,3 +84,8 @@ php artisan make:listener UpdateProductSoldCount --event=OrderPaid
 
 //创建监听器来执行发送邮件的动作
 php artisan make:listener SendOrderPaidMail --event=OrderPaid
+
+//时间监听器
+php artisan make:listener UpdateProductRating --event=OrderReviewed
+
+//在 EventServiceProvider 注册事件和处理的关联 app/Providers/EventServiceProvider.php
