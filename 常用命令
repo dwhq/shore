@@ -92,3 +92,6 @@ php artisan make:listener UpdateProductRating --event=OrderReviewed
 
 //laravel-admin 创建控制器
 php artisan admin:make CouponCodesController --model=App\\Models\\CouponCode
+
+//创建一个新的异常类
+php artisan make:exception CouponCodeUnavailableException
