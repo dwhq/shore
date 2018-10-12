@@ -53,7 +53,7 @@ git reset --hard 81956e4de1e7d81a3040df9aacd41aa3763b3eec
 php artisan migrate
 
 //回滚最后一次迁移
-php artisan migrate:rollback
+php artisan admin:make CouponCodesController --model=App\\Models\\CouponCode
 
 //回滚应用程序中的所有迁移
 php artisan migrate:reset
@@ -89,3 +89,6 @@ php artisan make:listener SendOrderPaidMail --event=OrderPaid
 php artisan make:listener UpdateProductRating --event=OrderReviewed
 
 //在 EventServiceProvider 注册事件和处理的关联 app/Providers/EventServiceProvider.php
+
+//laravel-admin 创建控制器
+php artisan admin:make CouponCodesController --model=App\\Models\\CouponCode
